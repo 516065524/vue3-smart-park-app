@@ -4,7 +4,7 @@
 			<image src="@/static/login/bg.png" mode="widthFix"></image>
 		</view>
 		<view class="page-form-wrapper">
-			<form class="page-form">
+			<form  @submit="formSubmit" class="page-form">
 				<view class="form-input">
 					<view class="icon">
 						<image src="../../static/login/loginId-icon.png" mode="aspectFit"></image>
@@ -33,10 +33,18 @@
 
 <script setup lang="ts">
 	import request from '@/request'
+	import {loginIn} from '@/request/account'
 	console.log(request)
+	const formSubmit = (e) => {
+				let form = e.detail.value
+		console.log({e},{form})
+		loginIn({...form,type: 'App'}).then(res => {
+			console.log(res)
+		})
+	}
 </script>
 
-<style scoped>
+<style scoped lang="scss">
 	image {
 		display: block;
 	}
