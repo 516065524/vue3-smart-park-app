@@ -6,10 +6,6 @@ type RequestOptionsMethod = 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELET
  */
 const NOT_LOGIN_CODE = 40100001
 const LOGIN_TIMEOUT_CODE = 40100002
-/**
- * 成功码
- */
-const SUCCESS_CODE = 0
 // 数据返回的接口
 // 定义请求响应参数，不含data
 interface Result {
@@ -19,54 +15,37 @@ interface Result {
 
 // 请求响应参数，包含data
 interface ResultData<T = any> extends Result {
-	data?: T;
-}
-type ResultData2 = {
-	data: ResultData
+	data: T;
 }
 
-type Options = {
-	url: string;
-	method?: RequestOptionsMethod,
-	timeout?: number,
-	header?: object,
-	data?: object
-}
+interface Res<T = any> {
+	data: ResultData<T>
+} 
 
-const requestTask = async function(options: Options) {
-	// let opts: Options = {
-	// 	data: {},
-	//     url: '',
-	// 	method: "GET",
-	// 	timeout: 5000,
-	// 	header: {
-	// 		authorization: uni.getStorageSync("authorization"),
-	// 		refresh_token: uni.getStorageSync("refresh_token")
-	// 	}
-	// }
-	// Object.assign(opts, options, {
-	// 	url: appConfig.VITE_BASE_URL + options.url
-	// });
+
+const requestTask = <T>(options: UniApp.RequestOptions) :Promise<ResultData<T>> => {
 	const URL = appConfig.VITE_BASE_URL
-	const token = '';
-	// if (!token) {
-	// 	setTimeout(toLogin, 2000);
-	// 	return Promise.reject({
-	// 		msg: '未登录'
-	// 	})
-	// }
-
-	return new Promise((resolve, reject) => {
+	let url: string
+    if (/^(http|https):\/\/.*/.test(options.url)) {
+        // 如果是以http/https开头的则不添加VITE_REQUEST_BASE_URL
+        url = options.url
+    } else {
+        url = URL + options.url
+    }
+	return new Promise<ResultData<T>>((resolve, reject) => {
 		uni.request({
-			url: URL + options.url,
-			method: options.method || "GET",
+			...options,
+			url,
 			header: options.header || {
 				authorization: uni.getStorageSync("authorization"),
 				refresh_token: uni.getStorageSync("refresh_token")
 			},
-			data: options.data || {},
 			success: (res) => {
-				responHandler(res as unknown as ResultData2, resolve);
+				// resolve(res.data as unknown as ResultData<T>)
+				responHandler(res as unknown as Res<T>, resolve);
+			},
+			fail(err) {
+				reject(err)
 			}
 		})
 	})
@@ -79,23 +58,21 @@ const deaufaultRes = {
 	data: null
 }
 
-function responHandler(res: ResultData2, resolve: (value: unknown) => void) {
+function responHandler(res: Res, resolve: (value: any) => void) {
 	const { code } = res.data;
-	if (code === NOT_LOGIN_CODE || code === LOGIN_TIMEOUT_CODE) {
-		uni.showToast({
-			title: '登录失效，请重新登录',
-			icon: 'none',
-			mask: true,
-			complete: () => {
-				toLogin();
-			},
-		})
+	if (code === NOT_LOGIN_CODE) {
+		toLogin();
 		console.log('我失效了')
-
 		return false
-	}
-	if (code === SUCCESS_CODE) {
-		return resolve({ ...res.data })
+	} else {
+		if (code === LOGIN_TIMEOUT_CODE) {
+			setTimeout(toLogin, 2000);
+			requestErr('登陆过期')
+		} else {
+			requestErr(res.data.data.msg)
+		}
+		let data = res.data || deaufaultRes
+		return resolve({ ...data })
 	}
 }
 

@@ -15,16 +15,6 @@ export default defineConfig({
   // 开发服务器配置
   server: {
     host: '0.0.0.0',
-    port: 8080,
-    // 请求代理
-    proxy: {
-        // 个人习惯，这里就用/dev作为前缀了
-        '/dev': {
-            target: 'https://xxx.com/api',
-            changeOrigin: true,
-            // 路径重写，去掉/dev
-            rewrite: (path) => path.replace(/^\/dev/, '')
-        }
-    }
+    port: 8080
   }
 });

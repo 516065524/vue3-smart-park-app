@@ -1,16 +1,9 @@
 import request from "@/request";
-type LoginData = {
-    username: string,
-    password: string
-}
-type loginRes = {
-    data: {
+import { Login } from "../interface";
 
-    }
-}
 // 登陆
-export function loginIn(data: LoginData) {
-	return request({
+export function loginIn(data: Login.ReqLoginForm) {
+	return request<Login.ResLogin>({
 		url: "/api/user/login",
 		method: "POST",
 		data
