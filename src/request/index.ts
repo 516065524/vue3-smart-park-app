@@ -49,12 +49,12 @@ const requestTask = async function(options: Options) {
 	// });
 	const URL = appConfig.VITE_BASE_URL
 	const token = '';
-	if (!token) {
-		setTimeout(toLogin, 2000);
-		return Promise.reject({
-			msg: '未登录'
-		})
-	}
+	// if (!token) {
+	// 	setTimeout(toLogin, 2000);
+	// 	return Promise.reject({
+	// 		msg: '未登录'
+	// 	})
+	// }
 
 	return new Promise((resolve, reject) => {
 		uni.request({
