@@ -9,3 +9,11 @@ export function loginIn(data: Login.ReqLoginForm) {
 		data
 	})
 }
+
+// 登出
+export function logOut() {
+	return request({
+		url: '/api/user/logout',
+		method: 'GET'
+	})
+}

@@ -1,6 +1,4 @@
-import axios, { AxiosInstance, AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios'
 import appConfig from '@/config/app'
-type RequestOptionsMethod = 'OPTIONS' | 'GET' | 'HEAD' | 'POST' | 'PUT' | 'DELETE' | 'TRACE' | 'CONNECT'
 /**
  * 未登录码
  */
@@ -60,6 +58,7 @@ const deaufaultRes = {
 
 function responHandler(res: Res, resolve: (value: any) => void) {
 	const { code } = res.data;
+	console.log({res})
 	if (code === NOT_LOGIN_CODE) {
 		toLogin();
 		console.log('我失效了')
@@ -69,7 +68,7 @@ function responHandler(res: Res, resolve: (value: any) => void) {
 			setTimeout(toLogin, 2000);
 			requestErr('登陆过期')
 		} else {
-			requestErr(res.data.data.msg)
+			requestErr(res.data.msg)
 		}
 		let data = res.data || deaufaultRes
 		return resolve({ ...data })
