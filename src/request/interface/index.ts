@@ -14,3 +14,11 @@ export namespace Login {
 		[propName: string]: any;
 	}
 }
+// * 监测点
+export namespace checkPoint {
+	export interface permissionDataItem {
+		name: string
+  		id: string
+  		[propName: string]: any
+	}
+}

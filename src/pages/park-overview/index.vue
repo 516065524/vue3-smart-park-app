@@ -96,7 +96,7 @@ const tablist = [
   },
 ]
 
-type cpdwlistType = {
+interface cpdwlistType {
   importantIndustry: string
   type: string
   domainName: string

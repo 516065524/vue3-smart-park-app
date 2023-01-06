@@ -2,7 +2,7 @@
   <view class="page-wrapper">
     <view class="page-header">
       <image src="../../static/user/top-bg.png" mode="widthFix"></image>
-      <view class="header-content" @click="toUserInfo">
+      <view class="header-content" @tap="toUserInfo">
         <view class="content-left">
           <image :src="info.avatar" mode="widthFix"></image>
         </view>
@@ -20,7 +20,7 @@
       </view>
     </view>
     <view class="operate-list">
-      <view v-for="(item, i) in list" :key="item.title" class="list-item" @click="toSomePage(item)">
+      <view v-for="(item, i) in list" :key="item.title" class="list-item" @tap="toSomePage(item)">
         <view class="item-icon">
           <image :src="item.icon" mode="aspectFit"></image>
         </view>
@@ -35,7 +35,7 @@
       </view>
     </view>
     <view class="button-wrapper">
-      <button class="button" type="default" @click="logOff">退出登陆</button>
+      <button class="button" type="default" @tap="logOff">退出登陆</button>
     </view>
   </view>
 </template>

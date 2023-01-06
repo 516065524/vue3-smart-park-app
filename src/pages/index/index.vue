@@ -5,7 +5,7 @@
     </view>
     <view class="page-content">
       <view class="card-wrapper content-top">
-        <view @click="toCheckpointList">
+        <view @tap="toCheckpointList">
           <image src="@/static/index/checkpoint-list.png" mode="widthFix"></image>
           <view>监测点列表</view>
         </view>

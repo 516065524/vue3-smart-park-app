@@ -52,6 +52,22 @@
 				"navigationBarTextStyle": "white",
 				"navigationBarBackgroundColor": "#5476FD"
 			}
+		},
+		{
+			"path": "pages/checkpoint-list/index",
+			"style": {
+				"navigationBarTitleText": "监测点列表",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#5476FD"
+			}
+		},
+		{
+			"path": "pages/checkpoint-list/detail",
+			"style": {
+				"navigationBarTitleText": "监测点详情",
+				"navigationBarTextStyle": "white",
+				"navigationBarBackgroundColor": "#5476FD"
+			}
 		}
 	],
 	"globalStyle": {
